@@ -9,7 +9,11 @@ bot.on('ready', () => {
 	console.log("Serverlist ready!");
 });
 
+
 bot.on('message', message => {
+	if (message.content === '+ping') {  
+    		message.channel.send(`Latency is ${Date.now() - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`);
+  	}
 
 	if (message.author.bot) return;
 	if (message.channel.type === "dm") return;
@@ -17,11 +21,6 @@ bot.on('message', message => {
 
 	if (message.content.startsWith(prefix + "serverlist")) {
 		const guilds = bot.guilds.cache.array().sort((a, b) => b.memberCount - a.memberCount)
-
-		/**
-		 * 
-		 * @param {number} start
-		 */
 		const generateEmbed = start => {
 			const current = guilds.slice(start, start + 5)
 
